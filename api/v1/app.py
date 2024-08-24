@@ -15,7 +15,6 @@ def clean_up(_):
     """Cleans up the running context"""
     if not storage:
         return
-    print('Cleaning up context')
     storage.close()
 
 
