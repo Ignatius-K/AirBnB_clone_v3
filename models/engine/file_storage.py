@@ -15,6 +15,13 @@ from models.user import User
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+def get_item_key(value, _dict=dict()):
+    """Gets key of value in dict"""
+    for key, _value in _dict.items():
+        if _value is value:
+            return key
+    return None
+
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
@@ -33,6 +40,24 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+
+    def get(self, cls, id):
+        """Gets single object"""
+        all_objects = self.all(cls=cls)
+        cls_key = get_item_key(cls, classes)
+        if not cls_key:
+            return None
+        required_obj = all_objects.get(f'{cls_key}.{id}')
+        if not required_obj:
+            return None
+        return required_obj
+
+    def count(self, cls=None):
+        """Get the count of objects in storage"""
+        all_obj = self.all(cls=cls)
+        if not all_obj:
+            return 0
+        return len(all_obj)
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""

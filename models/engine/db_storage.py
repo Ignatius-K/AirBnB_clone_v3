@@ -19,6 +19,13 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+def get_item_key(value, _dict=dict()):
+    """Gets key of value in dict"""
+    for key, _value in _dict.items():
+        if _value is value:
+            return key
+    return None
+
 
 class DBStorage:
     """interaacts with the MySQL database"""
@@ -32,7 +39,7 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        self.__engine = create_engine('mysql+pymysql://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
@@ -50,6 +57,24 @@ class DBStorage:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
+
+    def get(self, cls, id):
+        """Gets single object"""
+        all_objects = self.all(cls=cls)
+        cls_key = get_item_key(cls, classes)
+        if not cls_key:
+            return None
+        required_obj = all_objects.get(f'{cls_key}.{id}')
+        if not required_obj:
+            return None
+        return required_obj
+
+    def count(self, cls=None):
+        """Get the count of objects in storage"""
+        all_obj = self.all(cls=cls)
+        if not all_obj:
+            return 0
+        return len(all_obj)
 
     def new(self, obj):
         """add the object to the current database session"""
