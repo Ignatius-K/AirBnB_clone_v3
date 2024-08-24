@@ -41,13 +41,13 @@ class FileStorage:
             return new_dict
         return self.__objects
 
-    def get(self, cls, id):
+    def get(self, cls, obj_id):
         """Gets single object"""
         all_objects = self.all(cls=cls)
         cls_key = get_item_key(cls, classes)
         if not cls_key:
             return None
-        required_obj = all_objects.get(f'{cls_key}.{id}')
+        required_obj = all_objects.get(f'{cls_key}.{obj_id}')
         if not required_obj:
             return None
         return required_obj
