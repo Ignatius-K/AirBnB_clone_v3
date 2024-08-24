@@ -45,9 +45,9 @@ class FileStorage:
         """Gets single object"""
         all_objects = self.all(cls=cls)
         cls_key = get_item_key(cls, classes)
-        if not cls_key and not obj_id:
+        if not cls_key or not obj_id:
             return None
-        obj_key = f"{cls_key}.{obj_id}"
+        obj_key = cls_key + "." + obj_id
         required_obj = all_objects.get(obj_key)
         if not required_obj:
             return None
