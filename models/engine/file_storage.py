@@ -47,7 +47,8 @@ class FileStorage:
         cls_key = get_item_key(cls, classes)
         if not cls_key:
             return None
-        required_obj = all_objects.get(f"{cls_key}.{obj_id}")
+        obj_key = f"{cls_key}.{obj_id}"
+        required_obj = all_objects.get(obj_key)
         if not required_obj:
             return None
         return required_obj
