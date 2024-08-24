@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """App_views Blueprint index"""
 
 from flask import jsonify

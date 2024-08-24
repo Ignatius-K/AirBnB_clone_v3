@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """App file defines the API instance"""
 
 from flask import Flask
