@@ -18,6 +18,7 @@ def handle_not_found(_):
         "error": "Not found"
     }), 404
 
+
 @app.teardown_appcontext
 def clean_up(_):
     """Cleans up the running context"""
