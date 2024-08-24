@@ -9,8 +9,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/api/*": {
-    "origins": ["*"],
+CORS(app, resources={r"/*": {
+    "origins": ["0.0.0.0"],
     "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "headers": ["*"]
 }})
