@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """App file defines the API instance"""
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -9,6 +9,14 @@ from api.v1.views import app_views
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
+@app.errorhandler(404)
+def handle_not_found(_):
+    """Handles not found route"""
+
+    return jsonify({
+        "error": "Not found"
+    }), 404
 
 @app.teardown_appcontext
 def clean_up(_):
